@@ -1,5 +1,6 @@
 name: arduino-api
 
 build:
-  cmake-ext: True
-  kconfig-ext: True
+  cmake: .
+  kconfig: Kconfig
+
