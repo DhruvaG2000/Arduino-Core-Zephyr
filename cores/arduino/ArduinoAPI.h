@@ -36,8 +36,11 @@
 #include "Stream.h"
 #include "Udp.h"
 #include "USBAPI.h"
-#include "WCharacter.h"
+// #include "WCharacter.h"
 #endif
+
+/* Zephyr libraries */
+#include <zephyr/zephyr.h>
 
 /* Standard C library includes */
 #include <stdlib.h>

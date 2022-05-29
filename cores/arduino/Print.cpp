@@ -339,8 +339,8 @@ size_t Print::printFloat(double number, int digits)
 
   size_t n = 0;
 
-  if (isnan(number)) return print("nan");
-  if (isinf(number)) return print("inf");
+  // if (isnan(number)) return print("nan");
+  // if (isinf(number)) return print("inf");
   if (number > 4294967040.0) return print ("ovf");  // constant determined empirically
   if (number <-4294967040.0) return print ("ovf");  // constant determined empirically
 
