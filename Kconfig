@@ -31,4 +31,9 @@ config ARDUINO_UART
 	depends on UART_INTERRUPT_DRIVEN
 	default y
 
+config QEMU_ICOUNT
+	bool "QEMU icount mode"
+	default n
+	depends on QEMU_TARGET
+
 endif
