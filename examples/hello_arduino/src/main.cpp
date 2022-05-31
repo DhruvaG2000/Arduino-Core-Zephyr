@@ -26,5 +26,5 @@ void setup()
 void loop()
 {
 		printk("Inside loop!\n");
-		k_sleep(K_SECONDS(5));
+		delay(1000);	// 1 second delay
 }
