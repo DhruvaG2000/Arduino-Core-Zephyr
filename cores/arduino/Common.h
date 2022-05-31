@@ -1,5 +1,7 @@
 #pragma once
 #include <stdint.h>
+/* Zephyr libraries */
+#include <zephyr/zephyr.h>
 
 #ifdef __cplusplus
 extern "C"{
