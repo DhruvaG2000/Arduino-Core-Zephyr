@@ -26,5 +26,5 @@ void setup()
 void loop()
 {
 		printk("Inside loop!\n");
-		delay(5);	// 5 second delay
+		delay(1000);	// 1 second delay
 }
