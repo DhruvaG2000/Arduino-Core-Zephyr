@@ -4,6 +4,7 @@ zephyr_include_directories(.)
 if(NOT DEFINED ARDUINO_BUILD_PATH)
 
 zephyr_sources(Common.cpp)
+zephyr_sources(main.cpp)
 
 endif()
 
