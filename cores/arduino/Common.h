@@ -4,6 +4,8 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
+/* Zephyr libraries */
+#include <zephyr/zephyr.h>
 
 void yield(void);
 
