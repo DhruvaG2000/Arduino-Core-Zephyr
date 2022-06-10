@@ -6,6 +6,7 @@ extern "C"{
 #endif
 /* Zephyr libraries */
 #include <zephyr/zephyr.h>
+#include <zephyr/drivers/gpio.h>
 
 void yield(void);
 
@@ -40,6 +41,8 @@ typedef enum {
 #define SERIAL      0x0
 #define DISPLAY     0x1
 
+#define LED_BUILTIN 13
+
 #ifndef constrain
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #endif
@@ -73,6 +76,10 @@ typedef void (*voidFuncPtrParam)(void*);
 #ifndef bit
 #define bit(b) (1UL << (b))
 #endif
+
+/* Zephyr defines */
+/* The devicetree node identifier for the "led0" alias. */
+#define LED0_NODE DT_ALIAS(led0)
 
 /* TODO: request for removal */
 typedef bool      boolean;
