@@ -17,7 +17,17 @@ static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode)
 {
-  gpio_pin_configure_dt(&led0, GPIO_OUTPUT);
+  if (pinNumber == LED_BUILTIN)
+  {
+    if (pinMode == OUTPUT)
+    {
+      gpio_pin_configure_dt(&led0, GPIO_OUTPUT);
+    }
+    if (pinMode == INPUT)
+    {
+      gpio_pin_configure_dt(&led0, GPIO_INPUT);
+    }
+  }
 }
 
 void digitalWrite(pin_size_t pinNumber, PinStatus status)
