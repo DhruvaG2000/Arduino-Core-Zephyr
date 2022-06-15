@@ -2,10 +2,13 @@
 
 void arduino::ZephyrI2C::begin() {
   // const struct device *dev = DEVICE_DT_GET_ANY(adi_adxl372);
+  const struct device *i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
   printk("IIC begin\n");
 }
 
-void arduino::ZephyrI2C::begin(uint8_t slaveAddr) {}
+void arduino::ZephyrI2C::begin(uint8_t slaveAddr) {
+
+}
 
 void arduino::ZephyrI2C::end() {}
 
