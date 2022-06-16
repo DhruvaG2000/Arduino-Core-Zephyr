@@ -13,19 +13,20 @@ uint16_t makeWord(uint8_t h, uint8_t l) { return (h << 8) | l; }
 * A build error on this line means your board is unsupported.
 * See the sample documentation for information on how to fix this.
 */
-static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+static struct gpio_dt_spec pin;
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode)
 {
+  pin = { .port = (&__device_dts_ord_9), .pin = pinNumber, .dt_flags = 1, };
   if (pinNumber == LED_BUILTIN)
   {
     if (pinMode == OUTPUT)
     {
-      gpio_pin_configure_dt(&led0, GPIO_OUTPUT);
+      gpio_pin_configure_dt(&pin, GPIO_OUTPUT);
     }
     if (pinMode == INPUT)
     {
-      gpio_pin_configure_dt(&led0, GPIO_INPUT);
+      gpio_pin_configure_dt(&pin, GPIO_INPUT);
     }
   }
 }
@@ -36,11 +37,11 @@ void digitalWrite(pin_size_t pinNumber, PinStatus status)
   {
     if (status == HIGH)
     {
-      gpio_pin_set_dt(&led0, GPIO_ACTIVE_HIGH);
+      gpio_pin_set_dt(&pin, GPIO_ACTIVE_HIGH);
     }
     if (status == LOW)
     {
-      gpio_pin_set_dt(&led0, GPIO_ACTIVE_LOW);
+      gpio_pin_set_dt(&pin, GPIO_ACTIVE_LOW);
     }
   }
 }
