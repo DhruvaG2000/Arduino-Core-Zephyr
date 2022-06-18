@@ -15,34 +15,30 @@ uint16_t makeWord(uint8_t h, uint8_t l) { return (h << 8) | l; }
 */
 static struct gpio_dt_spec pin;
 
-void pinMode(pin_size_t pinNumber, PinMode pinMode)
-{
-  pin = { .port = (&__device_dts_ord_9), .pin = pinNumber, .dt_flags = 1, };
-  if (pinNumber == LED_BUILTIN)
-  {
-    if (pinMode == OUTPUT)
-    {
-      gpio_pin_configure_dt(&pin, GPIO_OUTPUT);
-    }
-    if (pinMode == INPUT)
-    {
-      gpio_pin_configure_dt(&pin, GPIO_INPUT);
-    }
+void pinMode(pin_size_t pinNumber, PinMode pinMode) {
+  if (pinNumber >= 100) {
+    pinNumber -= 100;
+    pin = {.port = DEVICE_DT_GET(DT_NODELABEL(gpio1)),
+           .pin = pinNumber,
+           .dt_flags = GPIO_ACTIVE_LOW};
+  } else if (pinNumber < 100) {
+    pin = {.port = DEVICE_DT_GET(DT_NODELABEL(gpio0)),
+           .pin = pinNumber,
+           .dt_flags = GPIO_ACTIVE_LOW};
+  }
+
+  if (pinMode == OUTPUT) {
+    gpio_pin_configure_dt(&pin, GPIO_OUTPUT);
+  } else if (pinMode == INPUT) {
+    gpio_pin_configure_dt(&pin, GPIO_INPUT);
   }
 }
 
-void digitalWrite(pin_size_t pinNumber, PinStatus status)
-{
-  if (pinNumber == LED_BUILTIN)
-  {
-    if (status == HIGH)
-    {
-      gpio_pin_set_dt(&pin, GPIO_ACTIVE_HIGH);
-    }
-    if (status == LOW)
-    {
-      gpio_pin_set_dt(&pin, GPIO_ACTIVE_LOW);
-    }
+void digitalWrite(pin_size_t pinNumber, PinStatus status) {
+  if (status == HIGH) {
+    gpio_pin_set_dt(&pin, GPIO_ACTIVE_HIGH);
+  } else if (status == LOW) {
+    gpio_pin_set_dt(&pin, GPIO_ACTIVE_LOW);
   }
 }
 
