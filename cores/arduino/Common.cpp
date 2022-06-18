@@ -9,10 +9,6 @@ long map(long x, long in_min, long in_max, long out_min, long out_max)
 uint16_t makeWord(uint16_t w) { return w; }
 uint16_t makeWord(uint8_t h, uint8_t l) { return (h << 8) | l; }
 
-/*
-* A build error on this line means your board is unsupported.
-* See the sample documentation for information on how to fix this.
-*/
 static struct gpio_dt_spec pin;
 
 void pinMode(pin_size_t pinNumber, PinMode pinMode) {
