@@ -42,8 +42,6 @@ typedef enum {
 #define SERIAL      0x0
 #define DISPLAY     0x1
 
-#define LED_BUILTIN 13
-
 #ifndef constrain
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #endif
