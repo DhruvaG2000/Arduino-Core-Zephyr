@@ -1,6 +1,6 @@
 # Arduino-Core-Zephyr
 
-Arduino Core API module for zephyr
+Arduino Core API module for zephyr leverages the power of Zephyr under an Arduino-C++ style abtraction layer thus helping zephyr new-comers to start using it without worrying about learning about new APIs and libraries. Visit this project's [official blog](https://dhruvag2000.github.io/Blog-GSoC22/) for documentation.
 
 ## Setup
 
