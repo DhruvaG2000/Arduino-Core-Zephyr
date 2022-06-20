@@ -12,17 +12,17 @@ uint16_t makeWord(uint8_t h, uint8_t l) { return (h << 8) | l; }
 void pinMode(pin_size_t pinNumber, PinMode pinMode) {
   if (pinNumber >= 100) {
     pinNumber -= 100;
-    if (pinMode == INPUT) {
+    if (pinMode == INPUT || pinMode == INPUT_PULLDOWN) {
       gpio_pin_configure(DEVICE_DT_GET(DT_NODELABEL(gpio1)), pinNumber,
-                         GPIO_INPUT);
+                         GPIO_INPUT | GPIO_ACTIVE_LOW);
     } else {
       gpio_pin_configure(DEVICE_DT_GET(DT_NODELABEL(gpio1)), pinNumber,
                          GPIO_OUTPUT);
     }
   } else if (pinNumber < 100) {
-    if (pinMode == INPUT) {
+    if (pinMode == INPUT || pinMode == INPUT_PULLDOWN) {
       gpio_pin_configure(DEVICE_DT_GET(DT_NODELABEL(gpio0)), pinNumber,
-                         GPIO_INPUT);
+                         GPIO_INPUT | GPIO_ACTIVE_LOW);
     } else {
       gpio_pin_configure(DEVICE_DT_GET(DT_NODELABEL(gpio0)), pinNumber,
                          GPIO_OUTPUT);
@@ -57,11 +57,10 @@ PinStatus digitalRead(pin_size_t pinNumber) {
     return (gpio_pin_get(DEVICE_DT_GET(DT_NODELABEL(gpio1)), pinNumber) == 1)
                ? HIGH
                : LOW;
-  } else if (pinNumber < 100) {
-    return (gpio_pin_get(DEVICE_DT_GET(DT_NODELABEL(gpio0)), pinNumber) == 1)
-               ? HIGH
-               : LOW;
   }
+  return (gpio_pin_get(DEVICE_DT_GET(DT_NODELABEL(gpio0)), pinNumber) == 1)
+             ? HIGH
+             : LOW;
 }
 
 void delay(unsigned long ms) { k_sleep(K_MSEC(ms)); }
