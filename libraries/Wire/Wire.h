@@ -35,6 +35,8 @@ public:
   virtual int peek();
   virtual void flush();
   virtual int available();
+
+  static struct device *i2c_dev;
 };
 
 } // namespace arduino
