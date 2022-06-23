@@ -1,12 +1,10 @@
-.. _blinky-sample:
-
-Blinky
+Button Press LED
 ######
 
 Overview
 ********
 
-This Arduino Blinky sample blinks an LED forever using the `ArduinoAPI`.
+This Arduino sample turns ON BUILTIN LED if button pressed using the `ArduinoAPI`.
 
 Requirements
 ************
@@ -16,6 +14,7 @@ Your board must:
 #. Have an LED connected via a GPIO pin (these are called "User LEDs" on many of
    Zephyr's :ref:`boards`).
 #. Have the LED configured using the ``led0`` devicetree alias.
+#. A button connected to pin D9
 
 Building and Running
 ********************
@@ -23,37 +22,11 @@ Building and Running
 Build and flash Blinky as follows,
 
 ```sh
-$> west build  -p -b arduino_nano_33_ble samples/basic/arduino-blinky/ -DZEPHYR_EXTRA_MODULES=/home/$USER/zephyrproject/modules/lib/Arduino-Core-Zephyr
+$> west build  -p -b arduino_nano_33_ble samples/button_press_led -DZEPHYR_EXTRA_MODULES=/home/$USER/zephyrproject/modules/lib/Arduino-Core-Zephyr
 
 $> west flash --bossac=/home/$USER/.arduino15/packages/arduino/tools/bossac/1.9.1-arduino2/bossac
 ```
 
-After flashing, the LED starts to blink. If a runtime error occurs, the sample
-exits without printing to the console.
-
-Adding board support
-********************
-
-To add support for your board, add something like this to your devicetree:
-
-.. code-block:: DTS
-
-   / {
-   	aliases {
-   		led0 = &myled0;
-   	};
-
-   	leds {
-   		compatible = "gpio-leds";
-   		myled0: led_0 {
-   			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
-                };
-   	};
-   };
-
-The above sets your board's ``led0`` alias to use pin 13 on GPIO controller
-``gpio0``. The pin flags :c:macro:`GPIO_ACTIVE_HIGH` mean the LED is on when
-the pin is set to its high state, and off when the pin is in its low state.
 
 Tips:
 
