@@ -1,13 +1,11 @@
 #pragma once
 #include <stdint.h>
-#include "arduino_nano_ble_sense_pinmap.h"
 
 #ifdef __cplusplus
 extern "C"{
 #endif
 /* Zephyr libraries */
 #include <zephyr/zephyr.h>
-#include <zephyr/drivers/gpio.h>
 
 void yield(void);
 
