@@ -1,16 +1,5 @@
 #include "Arduino.h"
 
-<<<<<<< HEAD
-void delay(unsigned long ms)
-{
-    k_sleep(K_MSEC(ms));
-}
-
-void delayMicroseconds(unsigned int us)
-{
-  k_sleep(K_USEC(us));
-}
-=======
 void pinMode(pin_size_t pinNumber, PinMode pinMode) {
   if (pinNumber >= 100) {
     pinNumber -= 100;
@@ -68,4 +57,3 @@ PinStatus digitalRead(pin_size_t pinNumber) {
 void delay(unsigned long ms) { k_sleep(K_MSEC(ms)); }
 
 void delayMicroseconds(unsigned int us) { k_sleep(K_USEC(us)); }
->>>>>>> f0ea886 (Removed Arduino API files)
