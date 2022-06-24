@@ -39,6 +39,8 @@ public:
   static struct i2c_dt_spec bus;
 
 private:
+  int write_bytes(const struct device *i2c_dev, uint16_t addr,
+		       uint8_t *data, uint32_t num_bytes);
   int _address;
   uint8_t txBuffer[256];
   uint32_t usedTxBuffer;

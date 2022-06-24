@@ -1,5 +1,18 @@
 #include "Wire.h"
 
+int arduino::ZephyrI2C::write_bytes(const struct device *i2c_dev,
+		       uint8_t *data, uint32_t num_bytes)
+{
+	struct i2c_msg msgs[2];
+
+	/* Data to be written, and STOP after this. */
+	msgs[1].buf = data;
+	msgs[1].len = num_bytes;
+	msgs[1].flags = I2C_MSG_WRITE | I2C_MSG_STOP;
+
+	return i2c_transfer(i2c_dev, &msgs[0], 2, _address);
+}
+
 void arduino::ZephyrI2C::begin() {
   i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
 }
@@ -17,7 +30,13 @@ void arduino::ZephyrI2C::beginTransmission(uint8_t address) { // TODO for ADS111
   usedTxBuffer = 0;
 }
 
-uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) { return 2; }
+uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) { 
+  uint8_t ret = write_bytes(i2c_dev, 0x00, txBuffer, sizeof(txBuffer));
+  if (ret) {
+    return 1; // fail
+  }
+  return 0;
+}
 
 uint8_t arduino::ZephyrI2C::endTransmission(void) { // TODO for ADS1115
   return endTransmission(true);
