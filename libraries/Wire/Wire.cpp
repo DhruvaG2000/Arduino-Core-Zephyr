@@ -31,7 +31,7 @@ void arduino::ZephyrI2C::beginTransmission(uint8_t address) { // TODO for ADS111
 }
 
 uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) {
-  uint8_t ret = write_bytes(i2c_dev, 0x00, txBuffer, sizeof(txBuffer));
+  uint8_t ret = write_bytes(i2c_dev, txBuffer, sizeof(txBuffer));
   if (ret) {
     return 1; // fail
   }
