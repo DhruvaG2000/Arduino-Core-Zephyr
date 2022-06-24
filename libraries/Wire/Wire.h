@@ -35,8 +35,13 @@ public:
   virtual int peek();
   virtual void flush();
   virtual int available();
+  const struct device *i2c_dev;
+  static struct i2c_dt_spec bus;
 
-  static struct device *i2c_dev;
+private:
+  int _address;
+  uint8_t txBuffer[256];
+  uint32_t usedTxBuffer;
 };
 
 } // namespace arduino

@@ -1,9 +1,7 @@
 #include "Wire.h"
 
 void arduino::ZephyrI2C::begin() {
-  // const struct device *dev = DEVICE_DT_GET_ANY(adi_adxl372);
-  *i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
-  printk("IIC begin\n");
+  i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
 }
 
 void arduino::ZephyrI2C::begin(uint8_t slaveAddr) {
@@ -15,7 +13,8 @@ void arduino::ZephyrI2C::end() {}
 void arduino::ZephyrI2C::setClock(uint32_t freq) {}
 
 void arduino::ZephyrI2C::beginTransmission(uint8_t address) { // TODO for ADS1115
-
+  _address = address;
+  usedTxBuffer = 0;
 }
 
 uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) { return 2; }
