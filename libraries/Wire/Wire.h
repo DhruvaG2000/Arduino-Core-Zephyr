@@ -42,8 +42,8 @@ private:
   int write_bytes(const struct device *i2c_dev,
 		       uint8_t *data, uint32_t num_bytes);
   int _address;
-  uint8_t txBuffer[256];
-  uint32_t usedTxBuffer;
+  uint8_t txBuffer[256], rxBuffer[256];
+  uint32_t usedTxBuffer, usedRxBuffer;
 };
 
 } // namespace arduino

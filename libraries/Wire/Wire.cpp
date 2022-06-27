@@ -31,10 +31,11 @@ void arduino::ZephyrI2C::beginTransmission(uint8_t address) { // TODO for ADS111
 }
 
 uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) {
-  uint8_t ret = write_bytes(i2c_dev, txBuffer, sizeof(txBuffer));
-  if (ret) {
-    return 1; // fail
-  }
+  // uint8_t ret = write_bytes(i2c_dev, txBuffer, sizeof(txBuffer));
+  i2c_write(i2c_dev, txBuffer, usedTxBuffer, _address);
+  // if (ret) {
+  //   return 1; // fail
+  // }
   return 0;
 }
 
@@ -44,7 +45,8 @@ uint8_t arduino::ZephyrI2C::endTransmission(void) { // TODO for ADS1115
 
 size_t arduino::ZephyrI2C::requestFrom(uint8_t address, size_t len,
                                        bool stopBit) {
-
+  usedRxBuffer = ( (usedRxBuffer >= 255) ? 0 : usedRxBuffer );
+  i2c_read(i2c_dev, rxBuffer, usedRxBuffer, _address);
   return len;
 }
 
@@ -52,8 +54,10 @@ size_t arduino::ZephyrI2C::requestFrom(uint8_t address, size_t len) { // TODO fo
   return requestFrom(address, len, true);
 }
 
-size_t arduino::ZephyrI2C::write(uint8_t data) {  // TODO for ADS1115 
-  return 1; }
+size_t arduino::ZephyrI2C::write(uint8_t data) {  // TODO for ADS1115
+  txBuffer[usedTxBuffer++] = data;
+  return 1;
+}
 
 size_t arduino::ZephyrI2C::write(const uint8_t *buffer, size_t size) {
   return size;
