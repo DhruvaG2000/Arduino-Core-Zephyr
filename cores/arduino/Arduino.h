@@ -1,4 +1,4 @@
-#include "ArduinoAPI.h"
+#include "api/ArduinoAPI.h"
 
 /* Zephyr libraries */
 #include "arduino_nano_ble_sense_pinmap.h"
