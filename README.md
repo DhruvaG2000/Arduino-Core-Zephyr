@@ -12,6 +12,20 @@ git clone git@github.com:arduino/ArduinoCore-API
 
 ## Setup
 
+- Navigate to zephyr root and edit the `west.yml` file and add the following under `projects`:
+```
+      # Arduino API repository.
+    - name: Arduino-Core-Zephyr
+      path: modules/lib/Arduino-Zephyr-API
+      revision: main
+      url: https://github.com/DhruvaG2000/Arduino-Core-Zephyr
+```
+- run `west update` to pull this repo to your local machine.
+- Create a symlink to ``ArduinoCore-API/api`` in this repo's ``core/arduino`` folder using the command ``ln -s /home/$USER/Projects/ArduinoCore-API/api cores/arduino/.``
+- Copy the desired examples in ``zephyr/samples``.
+- To pristine build an ``arduino-blinky`` example use the command ``west build  -p -b arduino_nano_33_ble samples/arduino-blinky``.
+
+**Outdated instructions:**
 1. Clone this repo in ``zephyrproject/modules/lib``
 2. Create a symlink to ``ArduinoCore-API/api`` in this repo's ``core/arduino`` folder using the command ``ln -s /home/dhruva/Projects/ArduinoCore-API/api cores/arduino/.``
 3. Copy the desired examples in ``zephyre/samples``.
