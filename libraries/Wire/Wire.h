@@ -43,7 +43,7 @@ private:
 		       uint8_t *data, uint32_t num_bytes);
   int _address;
   uint8_t txBuffer[256], rxBuffer[256];
-  uint32_t usedTxBuffer, usedRxBuffer;
+  uint32_t usedTxBuffer;
 };
 
 } // namespace arduino
