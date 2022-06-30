@@ -5,6 +5,7 @@
 #include "Print.h"
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/device.h>
+#include <zephyr/sys/ring_buffer.h>
 
 typedef void (*voidFuncPtrParamInt)(int);
 
@@ -44,6 +45,11 @@ private:
   int _address;
   uint8_t txBuffer[256], rxBuffer[256];
   uint32_t usedTxBuffer;
+  struct rx_ring_buf{
+    struct ring_buf rb;
+    uint8_t buffer[256];
+  };
+  struct rx_ring_buf rxRingBuffer;
 };
 
 } // namespace arduino

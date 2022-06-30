@@ -1,20 +1,8 @@
 #include "Wire.h"
 
-int arduino::ZephyrI2C::write_bytes(const struct device *i2c_dev,
-		       uint8_t *data, uint32_t num_bytes)
-{
-	struct i2c_msg msgs[2];
-
-	/* Data to be written, and STOP after this. */
-	msgs[1].buf = data;
-	msgs[1].len = num_bytes;
-	msgs[1].flags = I2C_MSG_WRITE | I2C_MSG_STOP;
-
-	return i2c_transfer(i2c_dev, &msgs[0], 2, _address);
-}
-
 void arduino::ZephyrI2C::begin() {
   i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
+  ring_buf_init(&rxRingBuffer.rb, sizeof(rxRingBuffer.buffer), rxRingBuffer.buffer);
 }
 
 void arduino::ZephyrI2C::begin(uint8_t slaveAddr) {
@@ -31,11 +19,10 @@ void arduino::ZephyrI2C::beginTransmission(uint8_t address) { // TODO for ADS111
 }
 
 uint8_t arduino::ZephyrI2C::endTransmission(bool stopBit) {
-  // uint8_t ret = write_bytes(i2c_dev, txBuffer, sizeof(txBuffer));
-  i2c_write(i2c_dev, txBuffer, usedTxBuffer, _address);
-  // if (ret) {
-  //   return 1; // fail
-  // }
+  int ret = i2c_write(i2c_dev, txBuffer, usedTxBuffer, _address);
+  if (ret) {
+    return 1; // fail
+  }
   return 0;
 }
 
@@ -45,7 +32,18 @@ uint8_t arduino::ZephyrI2C::endTransmission(void) { // TODO for ADS1115
 
 size_t arduino::ZephyrI2C::requestFrom(uint8_t address, size_t len,
                                        bool stopBit) {
-  i2c_read(i2c_dev, rxBuffer, 1, _address);
+  int ret = i2c_read(i2c_dev, rxRingBuffer.buffer, len, address);
+  if (ret != 0)
+  {
+    printk("\n\nERR: i2c burst read fails\n\n\n");
+    return 0;
+  }
+  ret = ring_buf_put(&rxRingBuffer.rb, rxRingBuffer.buffer, len);
+  if (ret == 0)
+  {
+    printk("\n\nERR: buff put fails\n\n\n");
+    return 0;
+  }
   return len;
 }
 
@@ -62,7 +60,18 @@ size_t arduino::ZephyrI2C::write(const uint8_t *buffer, size_t size) {
   return size;
 }
 
-int arduino::ZephyrI2C::read() { return rxBuffer[0]; }
+int arduino::ZephyrI2C::read() {
+  uint8_t buf[1];
+  if (ring_buf_peek(&rxRingBuffer.rb, buf, 1) > 0) {
+        int ret = ring_buf_get(&rxRingBuffer.rb, buf, 1);
+        if (ret == 0) {
+          printk("\n\nERR: buff empty\n\n\n");
+            return 0;
+        }
+		return (int)buf[0];
+  }
+  return rxBuffer[0];
+}
 
 int arduino::ZephyrI2C::available() { // TODO for ADS1115 
   return 1; 

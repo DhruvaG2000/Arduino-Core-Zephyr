@@ -6,6 +6,7 @@ extern "C"{
 #endif
 /* Zephyr libraries */
 #include <zephyr/zephyr.h>
+#include <zephyr/sys/ring_buffer.h>
 
 void yield(void);
 
